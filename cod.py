@@ -1,8 +1,8 @@
-usuario = []
+adm = []
 
 op = 99
 
-while(op != 0):
+while(op != 5):
     print('1- CADASTRAR USUÁRIO ADMIN:')
     print('2- CADASTRAR USUÁRIO LEITOR:')
     print('3- EFETUAR O LOGIN:')
