@@ -4,7 +4,7 @@ print()
 op = 0
 usuarios = {}
 noticias = {}
-
+jornal = {"publicacoes": []}
 while True:
     print('{:=^40}'.format(' MENÚ PRINCIPAL '))
     print('''    [1] CADASTRO ADM
@@ -63,7 +63,7 @@ while True:
         if(tipo == 1):
             op = 999
             while True:
-                print('[1] CRIAR NOTÍCIAS')
+                print('[1] PUBLICAR NOTÍCIAS')
                 print('[2] EDITAR NOTÍCIAS')
                 print('[3] REMOVER NOTICIAS')
                 print('[4] SAIR')
@@ -82,9 +82,10 @@ while True:
         elif(tipo == 2):
             op = 99
             while True:
-                print('[1} BUSCAR NOTÍCIA')
-                print('[2] COMENTAR A NOTÍCIA')
-                print('[3] CURTIR A NOTICIA')
+                print('[1} LISTAR PUBLICAÇÕES')
+                print('[2] LER UMA PUBLICAÇÃO')
+                print('[3] ADICIONAR COMENTARIO')
+                print('[4] SAIR')
                 op = int(input('digite a opcao desejada'))
                 if op >= 4:
                     print('Opção inválida, por favor digite novamente!')
@@ -98,6 +99,7 @@ while True:
                             print('-------------*****------------')
                 elif (op == 2):
                     comentatio = input('Deixe o seu comentario: ')
+
                 elif (op == 3):
                     curtir = input('Voce curtiu a notícia? [S/N]: ')
                 elif op == 4:
