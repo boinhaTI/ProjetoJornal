@@ -13,6 +13,9 @@ while True:
     print('[4] SAIR')
     op = int(input('Digite a sua opção: '))
 
+    if op >= 5:
+        print('Opção Inválida!')
+
     if op == 1:
         print('CADASTRAMENTO DE LOGIN E SENHA ADM')
         print()
@@ -24,8 +27,8 @@ while True:
 
             resp = ' '
             while resp not in 'SsNn':
-                resp = input('Deseja continuar cadastrando? Responda [S/N] ')
-            if resp.lower() == 'n':
+                resp = input('Deseja continuar cadastrando? Responda [S/N]: ')
+            if resp == 'N' and resp == 'n':
                 break
 
     elif op == 2:
@@ -63,47 +66,55 @@ while True:
                 op = int(input('Digite a sua opção: '))
 
                 if op == 1:
-                    titulo = input("Digite o título da notícia: ")
-                    conteudo = input("Digite o conteúdo da notícia: ")
-                    nova_publicacao = {"titulo": titulo, "conteudo": conteudo, "comentarios": []}
-                    jornal["publicacoes"].append(nova_publicacao)
-                    print("Notícia publicada com sucesso.")
+                    while True:
+                        titulo = input('Digite o título da notícia: ')
+                        conteudo = input('Digite o conteúdo da notícia: ')
+                        nova_publicacao = {"titulo": titulo, "conteudo": conteudo, "comentarios": []}
+                        jornal["publicacoes"].append(nova_publicacao)
+                        print('Notícia publicada com sucesso.')
+
+                        resp = ' '
+                        while resp not in 'SsNn':
+                            print('Deseja adicionar outra publicação? ')
+                        if resp == 'N' or resp == 'n':
+                            break
 
 
                 elif op == 2:
 
-                    print("Escolha a publicação que deseja editar:")
+                    print('Escolha a publicação que deseja editar:')
                     for i, publicacao in enumerate(jornal["publicacoes"]):
-                        print(f"{i + 1}. {publicacao['titulo']}")
-                    escolha = int(input())
+                        print(f'{i + 1}. {publicacao["titulo"]}')
+                    escolha = int(input('Escolha um número: '))
+
                     if 1 <= escolha <= len(jornal["publicacoes"]):
                         publicacao = jornal["publicacoes"][escolha - 1]
-                        novo_titulo = input("Digite o novo título (ou pressione Enter para manter o atual): ")
-                        novo_conteudo = input("Digite o novo conteúdo (ou pressione Enter para manter o atual): ")
+                        novo_titulo = input('Digite o novo título (ou pressione Enter para manter o atual): ')
+                        novo_conteudo = input('Digite o novo conteúdo (ou pressione Enter para manter o atual): ')
                         if novo_titulo:
                             publicacao["titulo"] = novo_titulo
                         if novo_conteudo:
                             publicacao["conteudo"] = novo_conteudo
-                        print("Notícia editada com sucesso.")
+                        print('Notícia editada com sucesso.')
                     else:
-                        print("Escolha de publicação inválida.")
+                        print('Escolha de publicação inválida.')
 
 
                 elif op == 3:
 
-                    print("Escolha a publicação que deseja remover:")
                     for i, publicacao in enumerate(jornal["publicacoes"]):
-                        print(f"{i + 1}. {publicacao['titulo']}")
+                        print(f'{i + 1}. {publicacao["titulo"]}')
+                    print('Escolha a publicação que deseja remover:')
                     escolha = int(input())
                     if 1 <= escolha <= len(jornal["publicacoes"]):
-                        confirmacao = input("Tem certeza de que deseja remover esta notícia? (s/n): ")
-                        if confirmacao == "s":
+                        confirmacao = input('Tem certeza de que deseja remover esta notícia? (s/n): ')
+                        if confirmacao == 'S' or confirmacao == 's':
                             publicacao = jornal["publicacoes"].pop(escolha - 1)
-                            print(f"A notícia '{publicacao['titulo']}' foi removida com sucesso.")
+                            print(f'A notícia {publicacao["titulo"]} foi removida com sucesso.')
                         else:
-                            print("A remoção da notícia foi cancelada.")
+                            print('A remoção da notícia foi cancelada.')
                     else:
-                        print("Escolha de publicação inválida.")
+                        print('Escolha de publicação inválida.')
 
                 elif op == 4:
                     break
@@ -119,45 +130,48 @@ while True:
 
                 if op == 1:
                     for i, publicacao in enumerate(jornal["publicacoes"]):
-                        print(f"{i + 1}. {publicacao['titulo']}")
+                        print(f'{i + 1}. {publicacao["titulo"]}')
 
                 elif op == 2:
                     while True:
-                        print("Digite o número da publicação que deseja ler (ou 0 para cancelar): ")
+                        print('Digite o número da publicação que deseja ler (ou 0 para cancelar): ')
                         indice = int(input())
                         if indice == 0:
                             break
                         if 0 <= indice <= len(jornal["publicacoes"]):
                             publicacao = jornal["publicacoes"][indice - 1]
-                            print(f"Título: {publicacao['titulo']}")
-                            print(publicacao['conteudo'])
-                            print("\nComentários:")
-                            for i, comentario in enumerate(publicacao['comentarios'], start=1):
-                                print(f"{i}. {usuarios[comentario['leitor']][1]}: {comentario['comentario']}")
+                            print(f'Título: {publicacao["titulo"]}')
+                            print(publicacao["conteudo"])
+                            print('\nComentários:')
+                            for i, comentario in enumerate(publicacao["comentarios"], start=1):
+                                print(f'{i}. {usuarios[comentario["leitor"]][1]}: {comentario["comentario"]}')
                             break
                         else:
-                            print("Número de publicação inválido. Tente novamente.")
+                            print('Número de publicação inválido. Tente novamente.')
 
                 elif op == 3:
                     while True:
-                        print("Digite o número da publicação para adicionar um comentário (ou 0 para cancelar): ")
-                        indice = int(input())
+                        indice = int(input('Digite o número da publicação para adicionar um comentário (ou [0] para cancelar): '))
+                        if not indice.isdigit():
+                            print('Por favor, digite um número válido.')
+                            continue
+                        indice = int(indice)
                         if indice == 0:
                             break
                         if 0 <= indice <= len(jornal["publicacoes"]):
                             publicacao = jornal["publicacoes"][indice - 1]
-                            print(f"Título: {publicacao['titulo']}")
-                            print(publicacao['conteudo'])
-                            nomeusuario = input("Digite o seu nome de usuário: ")
+                            print(f'Título: {publicacao["titulo"]}')
+                            print(publicacao["conteudo"])
+                            nomeusuario = input('Digite o seu nome de usuário: ')
                             if nomeusuario in usuarios:
-                                comentario = input("Digite o seu comentário: ")
-                                publicacao['comentarios'].append({"leitor": nomeusuario, "comentario": comentario})
-                                print("Comentário adicionado com sucesso.")
+                                comentario = input('Digite o seu comentário: ')
+                                publicacao["comentarios"].append({"leitor": nomeusuario, "comentario": comentario})
+                                print('Comentário adicionado com sucesso.')
                             else:
-                                print("Usuário não encontrado. Comentário não adicionado.")
+                                print('Usuário não encontrado. Comentário não adicionado.')
                             break
                         else:
-                            print("Número de publicação inválido. Tente novamente.")
+                            print('Número de publicação inválido. Tente novamente.')
                 elif op == 4:
                     break
 
