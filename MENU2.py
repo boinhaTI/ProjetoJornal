@@ -69,6 +69,42 @@ while True:
                     jornal["publicacoes"].append(nova_publicacao)
                     print("Notícia publicada com sucesso.")
 
+
+                elif op == 2:
+
+                    print("Escolha a publicação que deseja editar:")
+                    for i, publicacao in enumerate(jornal["publicacoes"]):
+                        print(f"{i + 1}. {publicacao['titulo']}")
+                    escolha = int(input())
+                    if 1 <= escolha <= len(jornal["publicacoes"]):
+                        publicacao = jornal["publicacoes"][escolha - 1]
+                        novo_titulo = input("Digite o novo título (ou pressione Enter para manter o atual): ")
+                        novo_conteudo = input("Digite o novo conteúdo (ou pressione Enter para manter o atual): ")
+                        if novo_titulo:
+                            publicacao["titulo"] = novo_titulo
+                        if novo_conteudo:
+                            publicacao["conteudo"] = novo_conteudo
+                        print("Notícia editada com sucesso.")
+                    else:
+                        print("Escolha de publicação inválida.")
+
+
+                elif op == 3:
+
+                    print("Escolha a publicação que deseja remover:")
+                    for i, publicacao in enumerate(jornal["publicacoes"]):
+                        print(f"{i + 1}. {publicacao['titulo']}")
+                    escolha = int(input())
+                    if 1 <= escolha <= len(jornal["publicacoes"]):
+                        confirmacao = input("Tem certeza de que deseja remover esta notícia? (s/n): ")
+                        if confirmacao == "s":
+                            publicacao = jornal["publicacoes"].pop(escolha - 1)
+                            print(f"A notícia '{publicacao['titulo']}' foi removida com sucesso.")
+                        else:
+                            print("A remoção da notícia foi cancelada.")
+                    else:
+                        print("Escolha de publicação inválida.")
+
                 elif op == 4:
                     break
 
