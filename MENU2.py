@@ -28,7 +28,7 @@ while True:
             resp = ' '
             while resp not in 'SsNn':
                 resp = input('Deseja continuar cadastrando? Responda [S/N]: ')
-            if resp == 'N' and resp == 'n':
+            if resp == 'N' or resp == 'n':
                 break
 
     elif op == 2:
@@ -73,9 +73,10 @@ while True:
                         jornal["publicacoes"].append(nova_publicacao)
                         print('Notícia publicada com sucesso.')
 
+
                         resp = ' '
                         while resp not in 'SsNn':
-                            print('Deseja adicionar outra publicação? ')
+                            resp = input('Deseja adicionar outra publicação? ')
                         if resp == 'N' or resp == 'n':
                             break
 
@@ -152,9 +153,7 @@ while True:
                 elif op == 3:
                     while True:
                         indice = int(input('Digite o número da publicação para adicionar um comentário (ou [0] para cancelar): '))
-                        if not indice.isdigit():
-                            print('Por favor, digite um número válido.')
-                            continue
+
                         indice = int(indice)
                         if indice == 0:
                             break
