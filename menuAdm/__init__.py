@@ -1,3 +1,6 @@
+import geral
+
+
 def cadastrarAdm(usuarios_lista):
     print('CADASTRAMENTO DE LOGIN E SENHA ADM')
     print()
@@ -35,6 +38,8 @@ def exibirMenuAdm(dicionarioUsuario, dicionarioNoticia):
         print('[3] REMOVER NOTÍCIAS')
         print('[4] SAIR')
         op = int(input('Digite a sua opção: '))
+        if op >= 5:
+            print('Opção invalida!')
 
         if op == 1:
             criarNoticia(dicionarioUsuario, dicionarioNoticia)
@@ -43,7 +48,7 @@ def exibirMenuAdm(dicionarioUsuario, dicionarioNoticia):
         elif op == 3:
             deletarNoticia(dicionarioUsuario, dicionarioNoticia)
         elif op == 4:
-            break
+            geral.menuprincipal()
 
 def criarNoticia(dicionarioUsuario, dicionarioNoticia):
     while True:
@@ -80,9 +85,15 @@ def editarNoticia(dicionarioUsuario, dicionarioNoticia):
 
 
 def deletarNoticia(dicionarioUsuario, dicionarioNoticia):
+
     while True:
-        for i, publicacao in enumerate(dicionarioNoticia["publicacoes"]):
-            print(f'{i+1}. {publicacao["titulo"]}')
+        numeroPublicacao = len(dicionarioNoticia["publicacoes"])
+        if numeroPublicacao == 0:
+            print('Não há notícias para deletar.')
+            break
+
+        for i, publicacao in enumerate(dicionarioNoticia["publicacoes"], start=1):
+            print(f'{i}. {publicacao["titulo"]}')
 
         escolha = int(input('Digite o número da notícia que deseja deletar (ou 99 para cancelar): '))
 
@@ -90,7 +101,7 @@ def deletarNoticia(dicionarioUsuario, dicionarioNoticia):
             print('Operação de remoção de notícia cancelada.')
             break
 
-        if 0 <= escolha < len(dicionarioNoticia["publicacoes"]):
+        if 0 <= escolha <= numeroPublicacao:
             confirmacao = input('Tem certeza de que deseja remover esta notícia? (s/n): ')
             if confirmacao == 's' or confirmacao == 'S':
                 publicacao = dicionarioNoticia["publicacoes"].pop(escolha-1)
@@ -100,4 +111,4 @@ def deletarNoticia(dicionarioUsuario, dicionarioNoticia):
                 print('A remoção da notícia foi cancelada.')
             break
         else:
-            print('Número de notícia inválido. Tente novamente.')
+            print(f'Número de notícia inválido. Deve estar entre 1 e {numeroPublicacao}. Tente novamente.')
