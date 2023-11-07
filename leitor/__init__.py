@@ -8,7 +8,7 @@ def cadastrarLeitor(dicionarioUsuario):
         loginLeitor = input('Cadastre o seu login: ')
         senha = input('Cadastre a sua senha: ')
 
-        # Verifique se o login já existe na lista
+        # Verificar se o login já existe na lista
 
         login_existe = False
         for usuario in dicionarioUsuario:

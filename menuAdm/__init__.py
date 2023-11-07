@@ -1,6 +1,4 @@
 import geral
-
-
 def cadastrarAdm(usuarios_lista):
     print('CADASTRAMENTO DE LOGIN E SENHA ADM')
     print()
@@ -12,7 +10,7 @@ def cadastrarAdm(usuarios_lista):
         loginAdm = input('Cadastre o seu login: ')
         senha = input('Cadastre a sua senha: ')
 
-        # Verifique se o login já existe na lista
+        # Verificar se o login já existe na lista
         login_existe = False
         for usuario in usuarios_lista:
             if usuario["login"] == loginAdm:
@@ -64,12 +62,60 @@ def criarNoticia(dicionarioUsuario, dicionarioNoticia):
         if resp == 'N' or resp == 'n':
            break
 
+# def editarNoticia(dicionarioUsuario, dicionarioNoticia):
+#
+#     if dicionarioUsuario in dicionarioNoticia.keys():
+#         listnews = dicionarioNoticia[dicionarioUsuario]
+#
+#         for i in range(len(listnews)):
+#             print(f'{i} - {listnews[i]["titulo"]}')
+#             print(f'{listnews[i]["conteudo"]}\n')
+#     else:
+#         print('nao existe nenhuma noticia publicada por este usuario')
+#
+#     print('Escolha a publicação que deseja editar:')
+#     for i, publicacao in enumerate(dicionarioNoticia["publicacoes"]):
+#         print(f'{i + 1}. {publicacao["titulo"]}')
+#
+#
+#     escolha = int(input('Escolha um número: '))
+#     if 1 <= escolha <= len(dicionarioNoticia["publicacoes"]):
+#         publicacao = dicionarioNoticia["publicacoes"][escolha - 1]
+#         novo_titulo = input('Digite o novo título (ou pressione Enter para manter o atual): ')
+#         novo_conteudo = input('Digite o novo conteúdo (ou pressione Enter para manter o atual): ')
+#         if novo_titulo:
+#             publicacao["titulo"] = novo_titulo
+#         if novo_conteudo:
+#             publicacao["conteudo"] = novo_conteudo
+#         print('Notícia editada com sucesso.')
+#         exibirMenuAdm(dicionarioUsuario, dicionarioNoticia)
+#     else:
+#         print('Escolha de publicação inválida.')
+
+
 def editarNoticia(dicionarioUsuario, dicionarioNoticia):
+
+    if dicionarioUsuario in dicionarioNoticia.keys():
+        listnews = dicionarioNoticia[dicionarioUsuario]
+
+        if not listnews:
+            print('Você não possui nenhuma notícia publicada. Vamos publicar a primeira notícia para você.')
+            criarNoticia(dicionarioUsuario, dicionarioNoticia)
+            return
+
+        for i in range(len(listnews)):
+            print(f'{i} - {listnews[i]["titulo"]}')
+            print(f'{listnews[i]["conteudo"]}\n')
+    else:
+        print('Você possui notícia publicada.')
+
+
+
     print('Escolha a publicação que deseja editar:')
     for i, publicacao in enumerate(dicionarioNoticia["publicacoes"]):
         print(f'{i + 1}. {publicacao["titulo"]}')
-    escolha = int(input('Escolha um número: '))
 
+    escolha = int(input('Escolha um número: '))
     if 1 <= escolha <= len(dicionarioNoticia["publicacoes"]):
         publicacao = dicionarioNoticia["publicacoes"][escolha - 1]
         novo_titulo = input('Digite o novo título (ou pressione Enter para manter o atual): ')
@@ -82,7 +128,6 @@ def editarNoticia(dicionarioUsuario, dicionarioNoticia):
         exibirMenuAdm(dicionarioUsuario, dicionarioNoticia)
     else:
         print('Escolha de publicação inválida.')
-
 
 def deletarNoticia(dicionarioUsuario, dicionarioNoticia):
 
@@ -111,4 +156,4 @@ def deletarNoticia(dicionarioUsuario, dicionarioNoticia):
                 print('A remoção da notícia foi cancelada.')
             break
         else:
-            print(f'Número de notícia inválido. Deve estar entre 1 e {numeroPublicacao}. Tente novamente.')
+            print('Número de notícia inválido. Tente novamente.')

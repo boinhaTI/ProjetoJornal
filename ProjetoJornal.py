@@ -13,9 +13,6 @@ while True:
     print()
     op = geral.menuprincipal()
 
-    if op >= 5:
-        print('Opção Inválida!')
-
     if op == 1:
         menuAdm.cadastrarAdm(usuarios_lista)
     elif op == 2:
