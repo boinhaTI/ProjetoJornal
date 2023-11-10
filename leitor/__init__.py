@@ -8,25 +8,26 @@ def cadastrarLeitor(dicionarioUsuario):
         loginLeitor = input('Cadastre o seu login: ')
         senha = input('Cadastre a sua senha: ')
 
-        # Verificar se o login já existe na lista
-
-        login_existe = False
-        for usuario in dicionarioUsuario:
-            if usuario["login"] == loginLeitor:
-                print('Login já existe.')
-                login_existe = True
+        if loginLeitor == '' or senha == '':
+            print('O campo login ou senha esta em branco!')
+        else:
+            login_existe = False            # Verificar se o login já existe na lista
+            for usuario in dicionarioUsuario:
+                if usuario["login"] == loginLeitor:
+                    print('Login já existe.')
+                    login_existe = True
+                    break
+            if not login_existe:
+                DicionarioUsuarioLeitor = {"ID": 2, "login": loginLeitor, "senha": senha}
+                dicionarioUsuario.append(DicionarioUsuarioLeitor)
+                print('Usuario cadastrado com sucesso!')
                 break
-        if not login_existe:
-            DicionarioUsuarioLeitor = {"ID": 2, "login": loginLeitor, "senha": senha}
-            dicionarioUsuario.append(DicionarioUsuarioLeitor)
-            print('Usuario cadastrado com sucesso!')
-            break
 
-        resp = ' '
-        while resp not in 'SsNn':
-            resp = input('Deseja continuar cadastrando? Responda [S/N] ')
-        if resp.lower() == 'n':
-            break
+            resp = ' '
+            while resp not in 'SsNn':
+                resp = input('Deseja continuar cadastrando? Responda [S/N] ')
+            if resp.lower() == 'n':
+                break
 
 def exibirMenuLeitor(dicionarioUsuario, DicionarioNoticia):
     while True:

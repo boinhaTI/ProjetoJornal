@@ -1,22 +1,13 @@
 def menuprincipal():
 
-    # print('==== MENU PRINCIPAL ====')
-    # print('[1] CADASTRO ADM')
-    # print('[2] CADASTRO LEITOR')
-    # print('[3] EFETUAR LOGIN')
-    # print('[4] SAIR')
-    # op = int(input('Digite a sua opção: '))
-    #
-    # if op >= 5:
-    #     print('Opção Inválida!')
-    #
-    # return op
-        print('==== MENU PRINCIPAL ====')
-        print('[1] CADASTRO ADM')
-        print('[2] CADASTRO LEITOR')
-        print('[3] EFETUAR LOGIN')
-        print('[4] SAIR')
-        op = input('Digite a sua opção: ')
+        print('-=' * 30)
+        print('| ===== MENU PRINCIPAL ====|')
+        print('| ---> [1] CADASTRO ADM    |')
+        print('| ---> [2] CADASTRO LEITOR |')
+        print('| ---> [3] EFETUAR LOGIN   |')
+        print('| ---> [4] SAIR            |')
+        print('-='*30)
+        op = input('---> Digite a sua opção: ')
 
         if op.isdigit():
             op = int(op)

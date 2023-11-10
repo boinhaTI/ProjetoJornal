@@ -6,7 +6,7 @@ from art import tprint
 tprint("CATOLICA   NOTICIAS'", font="chunky", chr_ignore=True)
 
 op = 0
-usuarios_lista = []
+usuarios_lista = [{'ID': 1, 'login': 'boinha', 'senha': '123'}]
 jornal = {"publicacoes": []}
 
 while True:
@@ -29,13 +29,14 @@ while True:
             tipo = geral.login(usuarios_lista, nomeusuario, senha)
 
             if tipo == 1:
-                menuAdm.exibirMenuAdm(nomeusuario, jornal)
-
+                menuAdm.exibirMenuAdm(usuarios_lista, nomeusuario, jornal)
+                break
             elif tipo == 2:
                 leitor.exibirMenuLeitor(usuarios_lista, jornal)
-
+            elif nomeusuario == '' or senha == '':
+                print('O campo login ou senha esta em branco!')
             else:
-                print('Opção invalida!')
+                print('ERRO! Login ou senha incorreto!')
     elif op == 4:
         break
 
