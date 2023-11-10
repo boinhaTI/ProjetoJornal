@@ -101,11 +101,11 @@ def criarNoticia(dicionarioUsuario, dicionarioNoticia):
         print(dicionarioNoticia)
 
 
-        resp = ' '
-        while resp not in 'SsNn':
-            resp = input('Deseja adicionar outra publicação? [S/N]:  ')
-        if resp == 'N' or resp == 'n':
-           break
+        # resp = ' '
+        # while resp not in 'SsNn':
+        #     resp = input('Deseja adicionar outra publicação? [S/N]:  ')
+        # if resp == 'N' or resp == 'n':
+        #    break
 
 
 
