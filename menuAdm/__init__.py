@@ -1,27 +1,30 @@
 import geral
 def cadastrarAdm(usuarios_lista):
-    print('CADASTRAMENTO DE LOGIN E SENHA ADM')
+    print()
+    print('** CADASTRAMENTO DE LOGIN E SENHA ADM **')
     print()
     while True:
-        nome = input('Digite seu nome ou digite [0] para cancelar: ')
+        nome = input('--> Digite seu nome ou digite [0] para "MENÚ PRINCIPAL" : ')
         if nome == '0':
             print('Cadastro cancelado pelo usuário!')
             break
         elif nome == '':
+            print('Opção Inválida! Não aceitamos campo em branco. Por esse motivo vamos tenta novamente.')
             continue
-        loginAdm = input('Cadastre o seu login (ou digite [0] para cancelar:')
+        loginAdm = input('--> Cadastre o seu login ou digite [0] para "MENÚ PRINCIPAL" :')
         if loginAdm == '0':
             print('Cadastro cancelado pelo usuário!')
             break
         elif loginAdm == '':
-            print('Login não pode estar em branco. Tente novamente.')
+            print('Opção Inválida! Não aceitamos campo em branco. Por esse motivo vamos tenta novamente.')
             continue
-        senha = input('Cadastre o seu senha (ou digite [0] para cancelar: ')
+        senha = input('--> Cadastre o seu senha ou digite [0] para "MENÚ PRINCIPAL" : ')
         if senha == '0':
             print('Cadastro cancelado pelo usuário!')
             break
         elif senha == '':
-            print('Senha não pode estar em branco. Tente novamente.')
+            print('Opção Inválida! Não aceitamos campo em branco. Por esse motivo vamos tenta novamente.')
+            continue
 
         else:
             login_existe = False              # Verificar se o login já existe na lista
@@ -48,13 +51,17 @@ def cadastrarAdm(usuarios_lista):
 
 def exibirMenuAdm(usuariolista, dicionarioUsuario, dicionarioNoticia):
     while True:
-        print('BEM VINDO AO MENÚ ADMINISTRDOR')
         print()
-        print('[1] PUBLICAR NOTÍCIAS')
-        print('[2] EDITAR NOTÍCIAS')
-        print('[3] REMOVER NOTÍCIAS')
-        print('[4] SAIR')
-        op = input('Digite a sua opção: ')
+        print('|','-=' * 12, '|')
+        print(f'| >> MENÚ ADMINISTRADOR << |')
+        print('|','-=' * 12,'|')
+        print('| -> [1] PUBLICAR NOTÍCIAS |')
+        print('| -> [2] EDITAR NOTÍCIAS   |')
+        print('| -> [3] REMOVER NOTÍCIAS  |')
+        print('| -> [4] SAIR              |')
+        print('-='*13,'|')
+
+        op = input('---> Digite a sua opção: ')
         if op.isdigit():
             op = int(op)
             if op == 1:
@@ -76,20 +83,20 @@ def exibirMenuAdm(usuariolista, dicionarioUsuario, dicionarioNoticia):
 
 def criarNoticia(dicionarioUsuario, dicionarioNoticia):
     while True:
-        titulo = input('Digite o título da notícia ou [0] para cancelar: ')
+        titulo = input('Digite o título da notícia ou digite [0] para "MENÚ ADMINISTRADOR" : ')
         if titulo == '0':
             print('Cadastro cancelado pelo usuário!')
             break
         if titulo == '':
-            print('Opção Inválida! Não aceitamos campo em branco')
+            print('Opção Inválida! Não aceitamos campo em branco. Por esse motivo vamos tenta novamente.')
             continue
         else:
-            conteudo = input('Digite o conteúdo da notícia ou [0] para cancelar: ')
+            conteudo = input('Digite o conteúdo da notícia ou digite [0] para "MENÚ ADMINISTRADOR" : ')
             if conteudo == '0':
                 print('Cadastro cancelado pelo usuário!')
                 break
             if conteudo == '':
-                print('Opção Inválida! Não aceitamos campo em branco.Tente novamente!')
+                print('Opção Inválida! Não aceitamos campo em branco. Por esse motivo vamos tenta novamente.')
                 continue
         # Assumindo que dicionarioUsuario é o nome de usuário
         nome_usuario = dicionarioUsuario
@@ -101,11 +108,11 @@ def criarNoticia(dicionarioUsuario, dicionarioNoticia):
         print(dicionarioNoticia)
 
 
-        # resp = ' '
-        # while resp not in 'SsNn':
-        #     resp = input('Deseja adicionar outra publicação? [S/N]:  ')
-        # if resp == 'N' or resp == 'n':
-        #    break
+        resp = ' '
+        while resp not in 'SsNn':
+            resp = input('Deseja adicionar outra publicação? [S/N]:  ')
+        if resp == 'N' or resp == 'n':
+           break
 
 
 
@@ -114,7 +121,9 @@ def editarNoticia(dicionarioUsuario, dicionarioNoticia):
 
     # Codigo para verificar se o usuário não está presente em nenhuma notícia
     if dicionarioUsuario not in [noticia.get("usuario") for noticia in dicionarioNoticia["publicacoes"]]:
-        print('Você não possui nenhuma notícia publicada. Vamos publicar a primeira notícia para você.')
+        print(f'Olá {dicionarioUsuario}. Ao verificar meu banco de dados, observei que não há nenhuma'
+              f' notícia publicada.\nVamos encaminhá-lo para que você possa publicar a sua primeira notícia.')
+        print()
         criarNoticia(dicionarioUsuario, dicionarioNoticia)
         return
 
@@ -153,7 +162,7 @@ def deletarNoticia(dicionarioUsuario, dicionarioNoticia):
     while True:
         numeroPublicacao = len(dicionarioNoticia["publicacoes"])
         if numeroPublicacao == 0:
-            print('Não há notícias para deletar.')
+            print(f'{dicionarioUsuario} não tem notícias para deletar.')
             break
 
         for i, publicacao in enumerate(dicionarioNoticia["publicacoes"], start=1):

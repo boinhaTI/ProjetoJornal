@@ -1,12 +1,13 @@
 def menuprincipal():
 
-        print('-=' * 30)
-        print('| ===== MENU PRINCIPAL ====|')
-        print('| ---> [1] CADASTRO ADM    |')
-        print('| ---> [2] CADASTRO LEITOR |')
-        print('| ---> [3] EFETUAR LOGIN   |')
-        print('| ---> [4] SAIR            |')
-        print('-='*30)
+        print('|','-=' * 12, '|')
+        print(f'|', ('>'*4), 'MENU PRINCIPAL', ('<'*4), '|')
+        print('|','-=' * 12,'|')
+        print('| -> [1] CADASTRO ADM      |')
+        print('| -> [2] CADASTRO LEITOR   |')
+        print('| -> [3] EFETUAR LOGIN     |')
+        print('| -> [4] SAIR              |')
+        print('-='*13,'|')
         op = input('---> Digite a sua opção: ')
 
         if op.isdigit():

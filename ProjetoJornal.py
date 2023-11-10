@@ -5,12 +5,12 @@ from art import tprint
 
 tprint("CATOLICA   NOTICIAS'", font="chunky", chr_ignore=True)
 
+
 op = 0
 usuarios_lista = [{'ID': 1, 'login': 'boinha', 'senha': '123'}]
 jornal = {"publicacoes": []}
 
 while True:
-    print()
     op = geral.menuprincipal()
 
     if op == 1:
