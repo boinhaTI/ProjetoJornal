@@ -1,10 +1,10 @@
 import geral
 def cadastrarAdm(usuarios_lista):
     print()
-    print('** CADASTRAMENTO DE LOGIN E SENHA ADM **')
+    print('** CADASTRAMENTO DE LOGIN E SENHA JORNALISTA **')
     print()
     while True:
-        nome = input('--> Digite seu nome ou digite [0] para "MENÚ PRINCIPAL" : ')
+        nome = input('--> Digite seu nome ou digite [0] para "MENÚ PRINCIPAL" : ').capitalize()
         if nome == '0':
             print('Cadastro cancelado pelo usuário!')
             break
@@ -34,31 +34,25 @@ def cadastrarAdm(usuarios_lista):
                     login_existe = True
                     break
             if not login_existe:
-                DicionarioUsuarioAdm = {"ID": 1, "login": loginAdm, "senha": senha}
+                DicionarioUsuarioAdm = {"ID": 1, "login": loginAdm, "senha": senha, "nome": nome}
                 usuarios_lista.append(DicionarioUsuarioAdm)
                 print('Usuario cadastrado com sucesso!')
                 break
 
 
-
-                # resp = ' '
-                # while resp not in 'SsNn':
-                #     resp = input('Deseja continuar cadastrando? Responda [S/N]: ')
-                # if resp == 'N' or resp == 'n':
-                #      break
-
-
-
 def exibirMenuAdm(usuariolista, dicionarioUsuario, dicionarioNoticia):
+
     while True:
         print()
         print('|','-=' * 12, '|')
-        print(f'| >> MENÚ ADMINISTRADOR << |')
+        print(f'| >>> MENÚ JORNALISTA <<<  |')
         print('|','-=' * 12,'|')
         print('| -> [1] PUBLICAR NOTÍCIAS |')
         print('| -> [2] EDITAR NOTÍCIAS   |')
         print('| -> [3] REMOVER NOTÍCIAS  |')
-        print('| -> [4] SAIR              |')
+        print('| -> [4] LISTAR LEITORES   |')
+        print('| -> [5] LISTAR COMENTARIOS|')
+        print('| -> [6] SAIR              |')
         print('-='*13,'|')
 
         op = input('---> Digite a sua opção: ')
@@ -71,9 +65,13 @@ def exibirMenuAdm(usuariolista, dicionarioUsuario, dicionarioNoticia):
             elif op == 3:
                 deletarNoticia(dicionarioUsuario, dicionarioNoticia)
             elif op == 4:
+                listarleitores(usuariolista, 2)
+            elif op == 5:
+                listarComentarios(dicionarioUsuario, dicionarioNoticia)
+            elif op == 6:
                 break
             else:
-                print('Opção Inválida! Escolha uma opção de 1 a 4.')
+                print('Opção Inválida! Escolha uma opção de 1 a 6.')
 
         else:
             print('Opção Inválida! Não aceitamos campo em branco e nem letras alfabeticas.\n'
@@ -83,7 +81,7 @@ def exibirMenuAdm(usuariolista, dicionarioUsuario, dicionarioNoticia):
 
 def criarNoticia(dicionarioUsuario, dicionarioNoticia):
     while True:
-        titulo = input('Digite o título da notícia ou digite [0] para "MENÚ ADMINISTRADOR" : ')
+        titulo = input('Digite o título da notícia ou digite [0] para "MENÚ ADMINISTRADOR" : ').capitalize()
         if titulo == '0':
             print('Cadastro cancelado pelo usuário!')
             break
@@ -91,33 +89,33 @@ def criarNoticia(dicionarioUsuario, dicionarioNoticia):
             print('Opção Inválida! Não aceitamos campo em branco. Por esse motivo vamos tenta novamente.')
             continue
         else:
-            conteudo = input('Digite o conteúdo da notícia ou digite [0] para "MENÚ ADMINISTRADOR" : ')
+            conteudo = input('Digite o conteúdo da notícia ou digite [0] para "MENÚ ADMINISTRADOR" : ').capitalize()
             if conteudo == '0':
                 print('Cadastro cancelado pelo usuário!')
                 break
             if conteudo == '':
                 print('Opção Inválida! Não aceitamos campo em branco. Por esse motivo vamos tenta novamente.')
                 continue
-        # Assumindo que dicionarioUsuario é o nome de usuário
+        # Confirmando que dicionarioUsuario é o nome de usuário
         nome_usuario = dicionarioUsuario
 
         nova_publicacao = {"titulo": titulo, "conteudo": conteudo, "comentarios": [], "usuario": nome_usuario}
         dicionarioNoticia["publicacoes"].append(nova_publicacao)
 
         print('Notícia publicada com sucesso.')
-        print(dicionarioNoticia)
 
+        resp = input('Deseja adicionar outra publicação? Digite [S] para Sim ou [N] para Não: ')
 
-        resp = ' '
-        while resp not in 'SsNn':
-            resp = input('Deseja adicionar outra publicação? [S/N]:  ')
-        if resp == 'N' or resp == 'n':
+        while resp.lower() not in ['s', 'n']:
+            print('Opção inválida! Digite [S] para Sim ou [N] para Não.')
+            resp = input('Deseja adicionar outra publicação? Digite [S] para Sim ou [N] para Não: ')
+        if resp.lower() == 'n':
            break
 
 
-
-
 def editarNoticia(dicionarioUsuario, dicionarioNoticia):
+
+    listnews = [noticia for noticia in dicionarioNoticia["publicacoes"] if noticia.get("usuario") == dicionarioUsuario]
 
     # Codigo para verificar se o usuário não está presente em nenhuma notícia
     if dicionarioUsuario not in [noticia.get("usuario") for noticia in dicionarioNoticia["publicacoes"]]:
@@ -127,19 +125,14 @@ def editarNoticia(dicionarioUsuario, dicionarioNoticia):
         criarNoticia(dicionarioUsuario, dicionarioNoticia)
         return
 
-    listnews = [noticia for noticia in dicionarioNoticia["publicacoes"] if noticia.get("usuario") == dicionarioUsuario]
+    print('Lista de noticias:\n--------------------')
+    for i, publicacao in enumerate(listnews):
+        print(f'ID - {i+1}\nNOTICIA - {publicacao["titulo"]}\nPUBLICAÇÃO - {publicacao["conteudo"]}\n----------------')
 
-
-
-    for i in range(len(listnews)):
-        print(f'{i} - {listnews[i]["titulo"]}')
-        print(f'{listnews[i]["conteudo"]}\n')
-    else:
-        print('Você possui notícia publicada.')
-
+    print()
     while True:
         print('Escolha a publicação que deseja editar:')
-        for i, publicacao in enumerate(dicionarioNoticia["publicacoes"]):
+        for i, publicacao in enumerate(listnews):
             print(f'{i + 1}. {publicacao["titulo"]}')
 
         escolha = int(input('Escolha um número para editar ou 0 para sair '))
@@ -155,17 +148,18 @@ def editarNoticia(dicionarioUsuario, dicionarioNoticia):
             print('Notícia editada com sucesso.')
             break
         else:
-            print('Escolha de publicação inválida.')
+            print('Cadastro cancelado pelo usuário!')
             break
 def deletarNoticia(dicionarioUsuario, dicionarioNoticia):
 
+    listnews = [noticia for noticia in dicionarioNoticia["publicacoes"] if noticia.get("usuario") == dicionarioUsuario]
     while True:
-        numeroPublicacao = len(dicionarioNoticia["publicacoes"])
+        numeroPublicacao = len(listnews)
         if numeroPublicacao == 0:
             print(f'{dicionarioUsuario} não tem notícias para deletar.')
             break
 
-        for i, publicacao in enumerate(dicionarioNoticia["publicacoes"], start=1):
+        for i, publicacao in enumerate(listnews, start=1):
             print(f'{i}. {publicacao["titulo"]}')
 
         escolha = int(input('Digite o número da notícia que deseja deletar (ou 0 para cancelar): '))
@@ -177,7 +171,7 @@ def deletarNoticia(dicionarioUsuario, dicionarioNoticia):
         if 1 <= escolha <= numeroPublicacao:
             confirmacao = input('Tem certeza de que deseja remover esta notícia? (S/N): ')
             if confirmacao == 's' or confirmacao == 'S':
-                publicacao = dicionarioNoticia["publicacoes"].pop(escolha-1)
+                publicacao = dicionarioNoticia["publicacoes"].pop(dicionarioNoticia["publicacoes"].index(listnews[escolha-1]))
                 print(f'A notícia "{publicacao["titulo"]}" foi removida com sucesso.')
 
             else:
@@ -185,3 +179,26 @@ def deletarNoticia(dicionarioUsuario, dicionarioNoticia):
             break
         else:
             print('Número de notícia inválido. Tente novamente.')
+def listarleitores(dicionarioLeitores, idLeitor):
+    for leitor in dicionarioLeitores:
+        if leitor.get('ID') == idLeitor:
+            print('Lista de Leitores:')
+            print(f"Nome: {leitor['nome']}")
+            print(f"Login: {leitor['login']}")
+            return
+
+    print(f"Usuário com ID {idLeitor} não encontrado.")
+
+
+def listarComentarios(dicionarioUsuario, dicionarioNoticia):
+    listnews = [noticia for noticia in dicionarioNoticia["publicacoes"] if noticia.get("usuario") == dicionarioUsuario]
+
+    print('\nLISTA DE COMENTÁRIOS\n')
+    for i, noticia in enumerate(listnews, start=1):
+        print(f'{i}ª noticia\nTítulo: {noticia["titulo"]}')
+        if noticia["comentarios"]:
+            print('Comentários:')
+            for j, comentario in enumerate(noticia["comentarios"], start=1):
+                print(f'{j}º comentário- {comentario["leitor"]}: {comentario["comentario"]}\n')
+        else:
+            print('Sem comentários.\n')

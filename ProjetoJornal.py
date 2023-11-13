@@ -3,14 +3,16 @@ import geral
 import leitor
 from art import tprint
 
-tprint("CATOLICA   NOTICIAS'", font="chunky", chr_ignore=True)
+# tprint("CATOLICA   NOTICIAS'", font="chunky", chr_ignore=True)
 
 
 op = 0
-usuarios_lista = [{'ID': 1, 'login': 'boinha', 'senha': '123'}]
+usuarios_lista = [{'ID': 1, 'login': 'boinha', 'senha': '123', 'nome': 'Cristofer'}, {'ID': 2, 'login': 'gogo', 'senha': '123', 'nome': 'Edilane'},
+                  {'ID': 1, 'login': 'joao', 'senha': '123', 'nome': 'Joao'}]
 jornal = {"publicacoes": []}
 
 while True:
+
     op = geral.menuprincipal()
 
     if op == 1:
@@ -32,7 +34,8 @@ while True:
                 menuAdm.exibirMenuAdm(usuarios_lista, nomeusuario, jornal)
                 break
             elif tipo == 2:
-                leitor.exibirMenuLeitor(usuarios_lista, jornal)
+                leitor.exibirMenuLeitor(usuarios_lista,nomeusuario, jornal)
+                break
             elif nomeusuario == '' or senha == '':
                 print('O campo login ou senha esta em branco!')
             else:
