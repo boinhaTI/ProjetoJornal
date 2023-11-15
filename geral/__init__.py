@@ -1,14 +1,17 @@
 from art import tprint
+
+
 def menuprincipal():
         tprint("'CATOLICA   NOTICIAS'", font="chunky", chr_ignore=True)
-        print('|','-=' * 12, '|')
+
+        print('|', '-=' * 12, '|')
         print(f'|', ('>'*4), 'MENU PRINCIPAL', ('<'*4), '|')
-        print('|','-=' * 12,'|')
+        print('|', '-=' * 12, '|')
         print('| -> [1] CADASTRO ADM      |')
         print('| -> [2] CADASTRO LEITOR   |')
         print('| -> [3] EFETUAR LOGIN     |')
         print('| -> [4] SAIR              |')
-        print('-='*13,'|')
+        print('-='*13, '|')
         op = input('---> Digite a sua opção: ')
 
         if op.isdigit():
@@ -23,6 +26,7 @@ def menuprincipal():
         else:
             print('Opção Inválida! Não aceitamos campo em branco e nem letras alfabeticas.\n'
                   '    ---> Por favor digite os valores conforme o "MENU". <---')
+
 
 def login(dicionario, login, senha):
     tipo = 0

@@ -47,7 +47,7 @@ def exibirMenuLeitor(usuariolista, dicionarioUsuario, DicionarioNoticia):
         print('|', '-=' * 13, ' |')
         print(f'| >>>>> MENÚ DO LEITOR <<<<<  |')
         print('|', '-=' * 13, ' |')
-        print('| -> [1] LISTAR PUBLICAÇÕES   |')
+        print('| -> [1] BUSCAR NOTÍCIAS   |')
         print('| -> [2] LER UMA PUBLICAÇÃO   |')
         print('| -> [3] ADICIONAR COMENTÁRIO |')
         print('| -> [4] SAIR                 |')
@@ -74,12 +74,17 @@ def exibirMenuLeitor(usuariolista, dicionarioUsuario, DicionarioNoticia):
 
 def listarNoticia(dicionariousuario, DicionarioNoticia):
 
-    if DicionarioNoticia["publicacoes"]:
-        for i, publicacao in enumerate(DicionarioNoticia["publicacoes"]):
-            print(f'{i + 1}. {publicacao["titulo"]}')
-            print(f'Autor da  Noticia: {publicacao["usuario"]}\n')
-    else:
-        print('Não tem nenhuma notícia publicada')
+    palavraChave = input('Digite uma palavra de busca: ')
+    print()
+    noticiaEncontrada = False
+
+    for i, publicacao in enumerate(DicionarioNoticia["publicacoes"]):
+        if palavraChave in publicacao["titulo"] or palavraChave in publicacao["conteudo"]:
+            noticiaEncontrada = True
+            print(f'{i+1}. {publicacao["titulo"]}')
+            print(f'Autor da notícia: {publicacao["usuario"]}\n')
+    if not noticiaEncontrada:
+        print('Não foram encontradas notícias com essa palavra-chave')
 
 
 def lerPublicacao(dicionariousuario, DicionarioNoticia):
@@ -87,29 +92,38 @@ def lerPublicacao(dicionariousuario, DicionarioNoticia):
         if DicionarioNoticia["publicacoes"]:
             for i, publicacao in enumerate(DicionarioNoticia["publicacoes"]):
                 print(f'{i + 1}. {publicacao["titulo"]}')
+                break
 
         else:
             print('Não tem nenhuma notícia publicada')
 
-        escolha = int(input('Digite o número da publicação que deseja ler (ou 0 para cancelar): '))
-
+        escolha = input('Digite o número da publicação que deseja ler (ou 0 para cancelar): ')
+        print()
+        if escolha.isdigit():
+            escolha = int(escolha)
         if escolha == 0:
             break
-        if 1 <= escolha <= len(DicionarioNoticia["publicacoes"]):
-            publicacao = DicionarioNoticia["publicacoes"][escolha - 1]
-            print(f'Noticia: {publicacao.get("titulo", "")}')
-            print(publicacao.get("conteudo", ""))
+        elif escolha == '':
+            print('Opção Inválida! Não aceitamos campo em branco')
+        else:
+            if 1 <= escolha <= len(DicionarioNoticia["publicacoes"]):
+                publicacao = DicionarioNoticia["publicacoes"][escolha - 1]
+                print(f'Noticia: {publicacao.get("titulo", "")}')
+                print(publicacao.get("conteudo", ""))
+                print()
 
-            # Exibir comentários da notícia escolhida
-            if publicacao["comentarios"]:
-                print('Comentários da noticia escolhida:')
-                for i, comentario in enumerate(publicacao["comentarios"], start=1):
-                    leitor = comentario.get('leitor', '')
-                    comentario_text = comentario.get('comentario', '')
-                    print(f' {i}º comentário- {leitor}: {comentario_text}')
-            else:
-                print('A notícia não possui comentários.')
-        break
+                # Exibir comentários da notícia escolhida
+                if publicacao["comentarios"]:
+                    print('Comentários da noticia escolhida:')
+                    for i, comentario in enumerate(publicacao["comentarios"], start=1):
+                        leitor = comentario.get('leitor', '')
+                        comentario_text = comentario.get('comentario', '')
+                        print(f' {i}º comentário - {leitor}: {comentario_text}')
+                        curtircomentario()
+                        return
+                else:
+                    print('A notícia não possui comentários.')
+            break
 
 
 def adicionarComentario(dicionarioUsuario, DicionarioNoticia):
@@ -154,3 +168,12 @@ def adicionarComentario(dicionarioUsuario, DicionarioNoticia):
                         print('Usuário não encontrado. Comentário não adicionado.')
                 else:
                     print('Número de publicação inválido. Tente novamente.')
+
+
+def curtircomentario():
+    cont = 0
+    curtir = input('Você curtiu essa notícia? [S] Sim ou [N] Não: ')
+    if curtir == 'S' or curtir == 's':
+        cont += 1
+    else:
+        print('Deixe nos comentarios a sua opinião.')

@@ -1,3 +1,4 @@
+from datetime import datetime
 import geral
 def cadastrarAdm(usuarios_lista):
     print()
@@ -52,7 +53,8 @@ def exibirMenuAdm(usuariolista, dicionarioUsuario, dicionarioNoticia):
         print('| -> [3] REMOVER NOTÍCIAS  |')
         print('| -> [4] LISTAR LEITORES   |')
         print('| -> [5] LISTAR COMENTARIOS|')
-        print('| -> [6] SAIR              |')
+        print('| -> [6] LISTAR NOTICIAS   |')
+        print('| -> [7] SAIR              |')
         print('-='*13,'|')
 
         op = input('---> Digite a sua opção: ')
@@ -69,6 +71,8 @@ def exibirMenuAdm(usuariolista, dicionarioUsuario, dicionarioNoticia):
             elif op == 5:
                 listarComentarios(dicionarioUsuario, dicionarioNoticia)
             elif op == 6:
+                listarNoticiass(dicionarioUsuario, dicionarioNoticia)
+            elif op == 7:
                 break
             else:
                 print('Opção Inválida! Escolha uma opção de 1 a 6.')
@@ -202,3 +206,23 @@ def listarComentarios(dicionarioUsuario, dicionarioNoticia):
                 print(f'{j}º comentário- {comentario["leitor"]}: {comentario["comentario"]}\n')
         else:
             print('Sem comentários.\n')
+
+
+def listarNoticiass(dicionarioUsuario, dicionarioNoticia):
+    hoje = datetime.now()
+
+    # Linha para pegar a noticia no dicionarioNoticia pertence a pessoa logada
+    listnews = [noticia for noticia in dicionarioNoticia["publicacoes"] if noticia.get("usuario") == dicionarioUsuario]
+
+    # reconhecer se tem alguma noticia no Usuário logado e fazer uma busca no dicionario para
+    # para saber se tem noticia
+    if dicionarioUsuario not in [noticia.get("usuario") for noticia in dicionarioNoticia["publicacoes"]]:
+        print(f'Olá {dicionarioUsuario}. Ao verificar meu banco de dados, observei que não há nenhuma'
+              f' notícia publicada.\nVamos encaminhá-lo para que você possa publicar a sua primeira notícia.')
+        print()
+        criarNoticia(dicionarioUsuario, dicionarioNoticia)  # Sera encaminhado para a função cadastrar noticia
+        return
+
+    for i, v in enumerate(listnews):
+        print(f'{i+1}ª noticia\nTitulo: {v["titulo"]}\nConteudo: {v["conteudo"]}\nEscritor: {dicionarioUsuario}'
+              f'\nData da publicação: {hoje.date()}')

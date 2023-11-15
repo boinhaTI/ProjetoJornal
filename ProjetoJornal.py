@@ -1,8 +1,8 @@
 import menuAdm
 import geral
 import leitor
-from art import tprint
-
+# from art import tprint
+# from datetime import datetime
 # tprint("CATOLICA   NOTICIAS'", font="chunky", chr_ignore=True)
 
 
