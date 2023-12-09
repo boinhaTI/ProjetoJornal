@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def cadastrarLeitor(dicionarioUsuario):
 
     print('CADASTRAMENTO DE LOGIN E SENHA LEITOR')
@@ -44,25 +46,32 @@ def exibirMenuLeitor(usuariolista, dicionarioUsuario, DicionarioNoticia):
     print()
 
     while True:
-        print('|', '-=' * 13, ' |')
-        print(f'| >>>>> MENÚ DO LEITOR <<<<<  |')
-        print('|', '-=' * 13, ' |')
-        print('| -> [1] BUSCAR NOTÍCIAS   |')
-        print('| -> [2] LER UMA PUBLICAÇÃO   |')
-        print('| -> [3] ADICIONAR COMENTÁRIO |')
-        print('| -> [4] SAIR                 |')
-        print('-=' * 14, ' |')
+        print('|', '-=' * 18, '|')
+        print(f'| >>>>>>>>>> MENÚ DO LEITOR <<<<<<<<<< |')
+        print('|', '-=' * 18, '|')
+        print('| -> [1] BUSCAR NOTÍCIAS               |')
+        print('| -> [2] LER UMA PUBLICAÇÃO            |')
+        print('| -> [3] ADICIONAR COMENTÁRIO E CURTIR |')
+        print('| -> [4] LISTA O TOP DAS MAIS CURTIDAS |')
+        print('| -> [5] SAIR                          |')
+        print('-=' * 18, '|')
 
         op = input('---> Digite a sua opção: ')
         if op.isdigit():
             op = int(op)
             if op == 1:
-                listarNoticia(dicionarioUsuario, DicionarioNoticia)
+                buscarNoticia(dicionarioUsuario, DicionarioNoticia)
             elif op == 2:
                 lerPublicacao(dicionarioUsuario, DicionarioNoticia)
             elif op == 3:
                 adicionarComentario(dicionarioUsuario, DicionarioNoticia)
             elif op == 4:
+                top_noticias_ordenadas = top_noticias(DicionarioNoticia)
+                print("Top Notícias Mais Curtidas:")
+                for i, publicacao in enumerate(top_noticias_ordenadas, start=1):
+                    print(
+                        f"{i}ª-> Notícia: {publicacao['titulo']} - Autor: {publicacao['usuario']} - Curtidas: {publicacao['curtida']}")
+            elif op == 5:
                 break
             else:
                 print('Opção Inválida! Escolha uma opção de 1 a 4.')
@@ -72,9 +81,9 @@ def exibirMenuLeitor(usuariolista, dicionarioUsuario, DicionarioNoticia):
                   '    ---> Por favor digite os valores conforme o "MENU". <---')
 
 
-def listarNoticia(dicionariousuario, DicionarioNoticia):
+def buscarNoticia(dicionariousuario, DicionarioNoticia):
 
-    palavraChave = input('Digite uma palavra de busca: ')
+    palavraChave = input('Digite uma palavra CHAVE de busca ou ENTER para listar todas: ')
     print()
     noticiaEncontrada = False
 
@@ -88,14 +97,14 @@ def listarNoticia(dicionariousuario, DicionarioNoticia):
 
 
 def lerPublicacao(dicionariousuario, DicionarioNoticia):
+
     while True:
         if DicionarioNoticia["publicacoes"]:
             for i, publicacao in enumerate(DicionarioNoticia["publicacoes"]):
                 print(f'{i + 1}. {publicacao["titulo"]}')
-                break
-
         else:
             print('Não tem nenhuma notícia publicada')
+            break
 
         escolha = input('Digite o número da publicação que deseja ler (ou 0 para cancelar): ')
         print()
@@ -109,7 +118,7 @@ def lerPublicacao(dicionariousuario, DicionarioNoticia):
             if 1 <= escolha <= len(DicionarioNoticia["publicacoes"]):
                 publicacao = DicionarioNoticia["publicacoes"][escolha - 1]
                 print(f'Noticia: {publicacao.get("titulo", "")}')
-                print(publicacao.get("conteudo", ""))
+                print(f'Conteudo:{publicacao.get("conteudo", "")}')
                 print()
 
                 # Exibir comentários da notícia escolhida
@@ -119,41 +128,51 @@ def lerPublicacao(dicionariousuario, DicionarioNoticia):
                         leitor = comentario.get('leitor', '')
                         comentario_text = comentario.get('comentario', '')
                         print(f' {i}º comentário - {leitor}: {comentario_text}')
-                        curtircomentario()
-                        return
+
                 else:
                     print('A notícia não possui comentários.')
             break
 
 
-def adicionarComentario(dicionarioUsuario, DicionarioNoticia):
 
+def adicionarComentario(dicionarioUsuario, DicionarioNoticia):
+    print(DicionarioNoticia)
     if not DicionarioNoticia["publicacoes"]:
         print('Não há notícias publicadas.')
         return
     else:
+        # Iterar sobre as publicações
+        for publicacao in DicionarioNoticia["publicacoes"]:
+            # Adicionar o campo "curtidas" para cada publicação, se não existir
+            if "curtidas" not in publicacao:
+                publicacao["curtidas"] = []  # mostrarar quais os logins que curtiram as noticias
+
         while True:
             for i, publicacao in enumerate(DicionarioNoticia["publicacoes"], start=1):
-                print(f'{i}. {publicacao["titulo"]} - Autor {publicacao["usuario"]}\n')
-            else:
-                indice = input('Digite o número da publicação para adicionar um comentário (ou [0] para cancelar): ')
+                print(
+                    f'{i}. {publicacao["titulo"]}\nEscritor {publicacao["usuario"]}')
 
-                if indice == '0':
-                    break
+            indice = input('Digite o número da publicação para interagir ou [0] para cancelar: ')
 
-                try:
-                    indice = int(indice)
-                except ValueError:
-                    print('Número de publicação inválido. Tente novamente.')
-                    continue
+            if indice == '0':
+                break
 
-                if 1 <= indice <= len(DicionarioNoticia["publicacoes"]):
-                    publicacao = DicionarioNoticia["publicacoes"][indice - 1]
-                    print(f'Título: {publicacao["titulo"]}')
-                    print(publicacao["conteudo"])
+            try:
+                indice = int(indice)
+            except ValueError:
+                print('Número de publicação inválido. Tente novamente.')
+                continue
+
+            if 1 <= indice <= len(DicionarioNoticia["publicacoes"]):
+                publicacao = DicionarioNoticia["publicacoes"][indice - 1]
+                print(f'Título: {publicacao["titulo"]}')
+                print(publicacao["conteudo"])
+
+                escolha = input('Digite [C] para comentar, [L] para curtir ou [0] para cancelar: ')
+
+                if escolha.upper() == 'C':
                     nomeusuario = input('Digite o seu login: ')
                     comentario = input('Digite o seu comentário: ')
-
 
                     usuario_encontrado = False
                     if nomeusuario == dicionarioUsuario:
@@ -162,18 +181,36 @@ def adicionarComentario(dicionarioUsuario, DicionarioNoticia):
                     if usuario_encontrado:
                         publicacao["comentarios"].append({"leitor": nomeusuario, "comentario": comentario})
                         print('Comentário adicionado com sucesso.')
+                        break
 
-                        return
                     else:
                         print('Usuário não encontrado. Comentário não adicionado.')
+
+                if escolha.upper() == 'L':
+                    if dicionarioUsuario in publicacao["curtidas"]:
+                        print('Você já deu like nesta notícia.')
+                    else:
+                        publicacao["curtidas"].append(dicionarioUsuario)
+                        publicacao["curtida"] += 1
+                        print('Notícia curtida com sucesso.')
+                        break
+                elif escolha == '0':
+                    break
                 else:
-                    print('Número de publicação inválido. Tente novamente.')
+                    print('Opção inválida.')
+
+            else:
+                print('Número de publicação inválido. Tente novamente.')
 
 
-def curtircomentario():
-    cont = 0
-    curtir = input('Você curtiu essa notícia? [S] Sim ou [N] Não: ')
-    if curtir == 'S' or curtir == 's':
-        cont += 1
-    else:
-        print('Deixe nos comentarios a sua opinião.')
+def top_noticias(dicionario_noticia):
+    publicacoes = dicionario_noticia.get("publicacoes", [])
+    publicacoes_ordenadas = sorted(publicacoes, key=lambda x: x.get("curtida", 0), reverse=True)
+    return publicacoes_ordenadas
+
+# # Obtendo o top das mais curtidas
+# top_noticias_ordenadas = top_noticias(dicionario_noticia)
+#
+# # Exibindo o top das mais curtidas
+# for i, publicacao in enumerate(top_noticias_ordenadas, start=1):
+#     print(f"{i}. {publicacao['titulo']} - Autor: {publicacao['usuario']} - Curtidas: {publicacao['curtida']}")

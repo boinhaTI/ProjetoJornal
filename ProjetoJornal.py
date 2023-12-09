@@ -1,15 +1,15 @@
 import menuAdm
 import geral
 import leitor
-# from art import tprint
-# from datetime import datetime
-# tprint("CATOLICA   NOTICIAS'", font="chunky", chr_ignore=True)
+from art import tprint
+from datetime import datetime
+tprint("CATOLICA   NOTICIAS'", font="chunky", chr_ignore=True)
 
 
 op = 0
-usuarios_lista = [{'ID': 1, 'login': 'boinha', 'senha': '123', 'nome': 'Cristofer'}, {'ID': 2, 'login': 'gogo', 'senha': '123', 'nome': 'Edilane'},
-                  {'ID': 1, 'login': 'joao', 'senha': '123', 'nome': 'Joao'}]
-jornal = {"publicacoes": []}
+usuarios_lista = []
+jornal = {'publicacoes': []}
+
 
 while True:
 

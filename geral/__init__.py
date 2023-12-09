@@ -1,8 +1,8 @@
-from art import tprint
+#from art import tprint
 
 
 def menuprincipal():
-        tprint("'CATOLICA   NOTICIAS'", font="chunky", chr_ignore=True)
+        #tprint("'CATOLICA   NOTICIAS'", font="chunky", chr_ignore=True)
 
         print('|', '-=' * 12, '|')
         print(f'|', ('>'*4), 'MENU PRINCIPAL', ('<'*4), '|')
