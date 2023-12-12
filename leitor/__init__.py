@@ -136,7 +136,7 @@ def lerPublicacao(dicionariousuario, DicionarioNoticia):
 
 
 def adicionarComentario(dicionarioUsuario, DicionarioNoticia):
-    print(DicionarioNoticia)
+
     if not DicionarioNoticia["publicacoes"]:
         print('Não há notícias publicadas.')
         return
@@ -149,8 +149,8 @@ def adicionarComentario(dicionarioUsuario, DicionarioNoticia):
 
         while True:
             for i, publicacao in enumerate(DicionarioNoticia["publicacoes"], start=1):
-                print(
-                    f'{i}. {publicacao["titulo"]}\nEscritor {publicacao["usuario"]}')
+                print(f'{i}. {publicacao["titulo"]}\nEscritor {publicacao["usuario"]}')
+                print()
 
             indice = input('Digite o número da publicação para interagir ou [0] para cancelar: ')
 
@@ -167,6 +167,7 @@ def adicionarComentario(dicionarioUsuario, DicionarioNoticia):
                 publicacao = DicionarioNoticia["publicacoes"][indice - 1]
                 print(f'Título: {publicacao["titulo"]}')
                 print(publicacao["conteudo"])
+
 
                 escolha = input('Digite [C] para comentar, [L] para curtir ou [0] para cancelar: ')
 

@@ -7,7 +7,8 @@ tprint("CATOLICA   NOTICIAS'", font="chunky", chr_ignore=True)
 
 
 op = 0
-usuarios_lista = []
+usuarios_lista = [{'ID': 1, 'login': 'boinha', 'senha': '123', 'nome': 'Cristofer'},
+                  {'ID': 2, 'login': 'edilane', 'senha': '123', 'nome': 'Edilane'}]
 jornal = {'publicacoes': []}
 
 

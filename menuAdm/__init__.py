@@ -61,7 +61,7 @@ def exibirMenuAdm(usuariolista, dicionarioUsuario, dicionarioNoticia):
 | -> [6] LISTAR NOTICIAS      |
 | -> [7] TOP NOTÍCIAS POR ADM |
 | -> [8] TOP NOTÍCIAS GERAL   |
-| -> [9] BAIXAR NOTÍCIAS .TXT |
+| -> [9] MENÚ DOWNLOAD'S      |
 | -> [10] SAIR                |
 | -=-=-=-=-=-=-=-=-=-=-=-=-=  |''')
 
@@ -88,9 +88,10 @@ def exibirMenuAdm(usuariolista, dicionarioUsuario, dicionarioNoticia):
                 print()
             elif op == 8:
                 top_noticias_geral_ordenadas = top_noticias_geral(dicionarioNoticia)
-                print("Top Notícias Mais Curtidas (Geral):")
+                print("Top Notícias Mais Curtidas (Geral):\n")
                 for i, publicacao in enumerate(top_noticias_geral_ordenadas, start=1):
-                    print(f"{i}. Título: {publicacao['titulo']}\nEscritor: {publicacao['usuario']}\nCurtidas: {publicacao.get('curtida', 0)}")
+                    print(f"{i}. Título: {publicacao['titulo']}\nEscritor: {publicacao['usuario']}"
+                          f"\nCurtidas: {publicacao.get('curtida', 0)}\n")
                 print()
 
             elif op == 9:
@@ -139,6 +140,7 @@ def criarNoticia(dicionarioUsuario, dicionarioNoticia):
             continue
         else:
             conteudo = input('Digite o conteúdo da notícia ou digite [0] para "MENÚ ADMINISTRADOR" : ').capitalize()
+            print()
             if conteudo == '0':
                 print('Cadastro cancelado pelo usuário!')
                 break
@@ -158,7 +160,7 @@ def criarNoticia(dicionarioUsuario, dicionarioNoticia):
                            "curtida": 0, "ID": id, "data_publicacao": data_publicacao}
         dicionarioNoticia["publicacoes"].append(nova_publicacao)
 
-        print('Notícia publicada com sucesso.')
+        print('----> Notícia publicada com sucesso. <----\n')
 
         resp = input('Deseja adicionar outra publicação? Digite [S] para Sim ou [N] para Não: ')
 
@@ -281,7 +283,7 @@ def listarNoticiass(dicionarioUsuario, dicionarioNoticia):
     for i, v in enumerate(listnews):
         data_publicacao = hoje.strftime("%d/%m/%Y")  # Formatar a data no estilo brasileiro
         print(f'{i + 1}ª notícia\nTítulo: {v["titulo"]}\nConteúdo: {v["conteudo"]}\nEscritor: {dicionarioUsuario}'
-              f'\nData da publicação: {data_publicacao}')
+              f'\nData da publicação: {data_publicacao}\n')
 
 
 def curtirNoticia(dicionarioUsuario, DicionarioNoticia):
